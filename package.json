@@ -1,11 +1,16 @@
 {
   "name": "octopusapp",
-  "version": "0.0.1",
+  "version": "1.0.0",
+	"api_version": "1.0.0",
+	"keywords": [ "Software" ],
+	"manufacturer": "Octopus",
+	"product": "App",
+	"shortname": "octopus",
   "description": "Module to control the Octopus App",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Per Roine",
+  "author": "Per Røine <per.roine@gmail.com>",
   "license": "MIT"
 }
