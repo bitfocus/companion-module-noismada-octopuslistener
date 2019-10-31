@@ -8,3 +8,5 @@ This module is for the Octopus App from [noismada.com.](http://noismada.com)
 
 * Recall Preset
 * Enable / Disable Device
+
+> Update: above commands will work on the paid version, you would need to select **paid** in the instance config.

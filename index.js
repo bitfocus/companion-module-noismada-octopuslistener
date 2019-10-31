@@ -72,7 +72,7 @@ instance.prototype.config_fields = function () {
 			id: 'info',
 			width: 12,
 			label: 'Information',
-			value: 'This module is for the Octopus App from <a href="http://noismada.com" target="_new">noismada.com</a>. Warning  Octopus renumbers the preset list if you delete a preset.'
+			value: 'This module is for the free Octopus App from <a href="http://noismada.com" target="_new">noismada.com</a> and/or the paid Octopus app <a href="https://www.octopusshowcontrol.com/" target="_new">octopusshowcontrol.com/</a>. Warning  Octopus renumbers the preset list if you delete a preset.'
 		},
 		{
 			type:  'textinput',
@@ -88,6 +88,14 @@ instance.prototype.config_fields = function () {
 			width:   6,
 			default: '9090',
 			regex: self.REGEX_PORT
+		},
+		{
+			type:   'dropdown',
+			id:     'version',
+			label:  'Version',
+			width:   6,
+			default: 'free',
+			choices: [{label: 'free', id: 'free'},{label: 'paid', id: 'paid'}]
 		}
 
 	]
@@ -101,7 +109,7 @@ instance.prototype.destroy = function() {
 		self.socket.destroy();
 	}
 
-	debug("destroy", self.id);;
+	debug("destroy", self.id);
 };
 
 
@@ -135,6 +143,7 @@ instance.prototype.actions = function(system) {
 					type: 'dropdown',
 					label: 'Enable / Disable',
 					id: 'enDis',
+					default: 'EDevice',
 					choices:  [
 						{ id: 'EDevice', label: 'Enable' },
 						{ id: 'DDevice', label: 'Disable' }
@@ -143,26 +152,40 @@ instance.prototype.actions = function(system) {
 			]
 		},
 
-
 	});
 };
 
 instance.prototype.action = function(action) {
 	var self = this;
-	var cmd
-	var opt = action.options
+	var cmd;
+	var opt = action.options;
+	var temp;
 
 	switch (action.action){
 
 		case 'rpreset':
-			cmd = 'Oct,RPreset,' + opt.preset;
+			if(self.config.version != undefined && self.config.version == "paid") {
+				cmd = 'Oct,PresetT,' + opt.preset + ',Recall';
+			} else {
+				cmd = 'Oct,RPreset,' + opt.preset;
+			}
 			break;
 
 		case 'edevice':
-			cmd = 'Oct,' + opt.enDis + ',' + opt.device;
+			if(self.config.version != undefined && self.config.version == "paid") {
+				if (opt.enDis == 'EDevice') {
+					temp = 'Enable';
+				} else if (opt.enDis == 'DDevice') {
+					temp = 'Disable';
+				}
+				cmd = 'Oct,DeviceS,' + opt.device + ',' + temp;
+			} else {
+				cmd = 'Oct,' + opt.enDis + ',' + opt.device;
+			}
+
 			break;
 
-	};
+	}
 
 
 
