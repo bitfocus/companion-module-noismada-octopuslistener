@@ -1,5 +1,8 @@
 {
-	"name": "octopusapp",
+	"name": "noismada-octopuslistener",
+	"legacy": [
+		"octopusapp"
+	],
 	"version": "1.0.2",
 	"api_version": "1.0.0",
 	"keywords": [
